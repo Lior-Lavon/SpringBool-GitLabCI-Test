@@ -1,19 +1,29 @@
-image: docker:latest
-services:
-  - docker:dind
-
-variables:
-  DOCKER_DRIVER: overlay
-  SPRING_PROFILES_ACTIVE: gitlab-ci
+image: openjdk:8-stretch
 
 stages:
   - build
+  - test
 
-maven-build:
-  image: maven:3-jdk-8
+before_script:
+  - echo "Start CI/CD"
+
+build:
   stage: build
-  script: "mvn package -B"
+  script:
+    - ./gradlew assemble
   artifacts:
     paths:
-      - target/*.jar
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
 
+test:
+  stage: test
+  script:
+    - ./gradlew check
+  only:
+    - master
+
+after_script:
+  - echo "End CI/CD"
