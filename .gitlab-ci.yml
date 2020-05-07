@@ -2,7 +2,6 @@ image: openjdk:8-stretch
 
 stages:
   - build
-  - test
 
 before_script:
   - echo "Start CI/CD"
