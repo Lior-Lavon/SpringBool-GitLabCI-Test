@@ -7,23 +7,14 @@ stages:
 before_script:
   - echo "Start CI/CD"
 
-build:
+maven-build:
+  image: maven:3-jdk-8
   stage: build
-  script:
-    - ./gradlew assemble
+  script: "mvn package -B"
   artifacts:
     paths:
-      - build/libs/*.jar
-    expire_in: 1 week
-  only:
-    - master
-
-test:
-  stage: test
-  script:
-    - ./gradlew check
-  only:
-    - master
+    paths:
+      - target/*.jar
 
 after_script:
   - echo "End CI/CD"
