@@ -13,7 +13,6 @@ maven-build:
   script: "mvn package -B"
   artifacts:
     paths:
-    paths:
       - target/*.jar
 
 after_script:
